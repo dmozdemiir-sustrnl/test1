@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Susternal — Human Energy Operating System</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Fraunces (Premium Serif) & Plus Jakarta Sans (Sleek Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- GSAP for Scroll Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#112620',     // Deep Forest Green
+                            deep: '#08120F',     // Shadow Forest Green (Darker for contrast)
+                            accent: '#D68C45',   // Warm Amber
+                            light: '#FAF8F5',    // Alabaster Cream
+                            sage: '#8FA89B',     // Soft Sage Green
+                            card: '#FAF8F5'      // Card background
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Fraunces', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAF8F5;
+            color: #112620;
+            overflow-x: hidden;
+        }
+        .text-serif {
+            font-family: 'Fraunces', serif;
+        }
+        /* Custom scrollbar matching brand colors */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF8F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #8FA89B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D68C45;
+        }
+    </style>
+</head>
+<body class="selection:bg-brand-accent selection:text-brand-light">
+
+    <!-- NAVIGATION HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 py-4 md:px-12 md:py-6" id="main-header">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <span class="text-serif font-semibold text-2xl tracking-wide text-brand-dark group-hover:text-brand-accent transition-colors">SUSTERNAL</span>
+                <span class="px-2 py-0.5 text-[10px] uppercase font-bold tracking-widest bg-brand-accent text-brand-light rounded">HEOS</span>
+            </a>
+            
+            <!-- Mid Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-brand-dark/80">
+                <a href="#thesis" class="hover:text-brand-accent transition-colors">Tez</a>
+                <a href="#problem" class="hover:text-brand-accent transition-colors">Sızıntı Döngüsü</a>
+                <a href="#pivot" class="hover:text-brand-accent transition-colors">Yazılım-First</a>
+                <a href="#fsi" class="hover:text-brand-accent transition-colors">FSI Hesapla</a>
+                <a href="#signals" class="hover:text-brand-accent transition-colors">Sinyal Mimarisi</a>
+                <a href="#translator" class="hover:text-brand-accent transition-colors">Yargı Tercümanı</a>
+            </nav>
+
+            <!-- CTA -->
+            <div>
+                <a href="#waitlist" class="bg-brand-dark hover:bg-brand-accent text-brand-light hover:text-brand-light px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase shadow-md transition-all duration-300 inline-block">
+                    Beta Bekleme Listesi
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FIXED BACKGROUND ATTENTION WAVE (CANVAS) -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-40 mix-blend-multiply">
+        <canvas id="attention-wave-canvas" class="w-full h-full"></canvas>
+    </div>
+
+    <!-- MAIN HERO SECTION -->
+    <section class="relative min-h-screen flex flex-col justify-center items-center px-6 pt-24 pb-12 z-10 overflow-hidden" id="hero">
+        <div class="max-w-4xl text-center space-y-8 flex flex-col items-center">
+            <!-- Small Tag -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-sage/40 bg-brand-sage/10 text-brand-dark text-xs font-semibold uppercase tracking-wider animate-pulse">
+                <i data-lucide="shield-alert" class="w-3.5 h-3.5 text-brand-accent"></i>
+                Bilişsel Sürdürülebilirlik Altyapısı // HEOS v1.0
+            </div>
+
+            <!-- Main Manifesto Quote -->
+            <h1 class="text-serif text-4xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.1] text-brand-dark max-w-4xl">
+                "Ben tembel değilim. Ben sürekli <span class="text-brand-accent italic font-normal">parçalanıyorum</span>."
+            </h1>
+
+            <p class="max-w-2xl text-base sm:text-lg text-brand-dark/70 font-light leading-relaxed">
+                Modern dijital tüketim kültürü, insan enerjisini biz yenileyemeden sömürüyor. Zamanı değil, hayatın asıl para birimi olan <strong>bilişsel enerjinizi</strong> bütçeleyin. Donanım yok. Sürtünme yok. Sadece derin görünürlük.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-4">
+                <a href="#thesis" class="bg-brand-accent hover:bg-brand-dark text-brand-light px-8 py-3.5 rounded-full text-sm font-semibold tracking-wider uppercase shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2">
+                    Keşfet <i data-lucide="arrow-down" class="w-4 h-4"></i>
+                </a>
+                <a href="#waitlist" class="border border-brand-dark/20 hover:border-brand-accent text-brand-dark hover:text-brand-accent px-8 py-3.5 rounded-full text-sm font-semibold tracking-wider uppercase transition-all duration-300">
+                    Susternal'ı Canlı Dene
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll down indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-brand-dark/40 text-xs tracking-widest uppercase font-semibold">
+            <span>Aşağı Kaydır</span>
+            <div class="w-1 h-12 bg-brand-sage/30 rounded-full overflow-hidden">
+                <div class="w-full h-1/2 bg-brand-accent rounded-full animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: CORE THESIS -->
+    <section class="relative min-h-screen flex items-center py-24 px-6 md:px-12 z-10 bg-brand-dark text-brand-light" id="thesis">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left: Text content -->
+            <div class="space-y-8 gs-fade-up">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">TEMEL KURAMSAL TEZ</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold leading-tight">
+                    İnsan Enerjisi Bir Skor Tablosu Değildir, Bir Ekonomidir.
+                </h2>
+                <div class="space-y-6 text-brand-light/80 font-light leading-relaxed">
+                    <p>
+                        Şu anda dünya size kalori takip etmeyi, zaman yönetmeyi veya adımlarınızı saymayı öğretiyor. Ama kimse size gün sonunda neden hiçbir şeye odaklanamadığınızı, neden uykusuz hissettiğinizi veya neden aniden abur cubura ya da sigaraya yöneldiğinizi açıklamıyor.
+                    </p>
+                    <p class="border-l-2 border-brand-accent pl-4 italic text-brand-light/90 font-normal">
+                        "Gerçek sömürü zamanınızda değil, sinir sisteminizin kapasitesinde, hormonal dengenizde ve bilişsel netliğinizde gerçekleşiyor."
+                    </p>
+                    <p>
+                        <strong>HEOS (Human Energy Operating System)</strong>, sizi daha çok üreten bir makineye dönüştürmeye çalışmaz. Sadece görünmez olan enerji sızıntılarınızı görünür kılar. Çünkü farkındalık, dönüşümden önceki tek adımdır.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Graphic representing the Internal Bank -->
+            <div class="relative bg-brand-deep p-8 rounded-3xl border border-brand-sage/20 space-y-6 shadow-2xl gs-fade-left">
+                <div class="flex justify-between items-center border-b border-brand-sage/10 pb-4">
+                    <h3 class="text-sm uppercase tracking-wider text-brand-sage font-semibold">Biyolojik Bilanço (HEOS Ledger)</h3>
+                    <span class="px-2 py-1 bg-red-950 text-red-400 border border-red-900 text-[10px] font-mono rounded animate-pulse">KRİTİK SIZINTI</span>
+                </div>
+
+                <!-- Simulating a balance ledger -->
+                <div class="space-y-4 font-mono text-xs text-brand-light/90">
+                    <div class="flex justify-between items-center bg-brand-dark/40 p-3 rounded">
+                        <span class="text-brand-sage flex items-center gap-2"><i data-lucide="brain" class="w-4 h-4 text-brand-accent"></i> Bilişsel Kapasite</span>
+                        <span class="text-red-400 font-bold">-42% (Sürekli Sekme Geçişi)</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-brand-dark/40 p-3 rounded">
+                        <span class="text-brand-sage flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4 text-brand-accent"></i> Sinir Sistemi Kapasitesi</span>
+                        <span class="text-red-400 font-bold">-35% (Bildirim Bombardımanı)</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-brand-dark/40 p-3 rounded">
+                        <span class="text-brand-sage flex items-center gap-2"><i data-lucide="heart" class="w-4 h-4 text-brand-accent"></i> Hormonal Denge</span>
+                        <span class="text-red-400 font-bold">-18% (Gece Ekran Maruziyeti)</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-brand-dark/60 p-3 rounded border border-brand-accent/20">
+                        <span class="text-brand-accent flex items-center gap-2"><i data-lucide="coins" class="w-4 h-4"></i> Enerji Likiditesi (Solvency)</span>
+                        <span class="text-brand-accent font-bold">DÜŞÜK (Tükenme Riski)</span>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-brand-accent/10 border border-brand-accent/20 rounded-xl text-xs text-brand-accent leading-relaxed">
+                    <strong>HEOS Analizi:</strong> "Sisteminiz şu anda iflas durumunda. Karakter zayıflığı değil, bilişsel likidite krizindesiniz. Kendinizi suçlamayı bırakın."
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: THE INVISIBLE EXTRACTION -->
+    <section class="relative min-h-screen flex items-center py-24 px-6 md:px-12 z-10 bg-brand-light" id="problem">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <!-- Header -->
+            <div class="max-w-3xl space-y-4 gs-fade-up">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">GÖRÜNMEZ SIZINTILAR</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold text-brand-dark">
+                    Enerjinizi Sömüren O Döngü Nasıl Oluşuyor?
+                </h2>
+                <p class="text-brand-dark/70 font-light">
+                    HEOS, davranışlarınızı tekil eylemler olarak görmez. Onları durum, tetikleyici ve reaksiyonların oluşturduğu sistemik zincirler olarak modeller.
+                </p>
+            </div>
+
+            <!-- Flow Visualizer -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative" id="loop-cards-container">
+                <!-- Card 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-brand-sage/10 space-y-4 transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden loop-card">
+                    <div class="w-10 h-10 bg-brand-dark text-brand-light rounded-full flex items-center justify-center font-bold text-sm">01</div>
+                    <h3 class="font-semibold text-lg text-brand-dark uppercase tracking-wider">STATE (DURUM)</h3>
+                    <p class="text-xs text-brand-dark/60 font-light leading-relaxed">
+                        Akut bir duygusal veya biyolojik çökmeyle başlar: <em>Yalnızlık, mental aşırı yüklenme, karar yorgunluğu veya düşük enerji.</em>
+                    </p>
+                    <div class="absolute right-3 top-3 opacity-10"><i data-lucide="activity" class="w-16 h-16 text-brand-dark"></i></div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-brand-sage/10 space-y-4 transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden loop-card">
+                    <div class="w-10 h-10 bg-brand-accent text-brand-light rounded-full flex items-center justify-center font-bold text-sm">02</div>
+                    <h3 class="font-semibold text-lg text-brand-accent uppercase tracking-wider">TRIGGER (TETİKLEYİCİ)</h3>
+                    <p class="text-xs text-brand-dark/60 font-light leading-relaxed">
+                        Sistem sizi uyarır: <em>Sıkıcı bir görevle karşılaşma, ani bildirim patlaması veya kısa form video maruziyeti (Doomscroll başlangıcı).</em>
+                    </p>
+                    <div class="absolute right-3 top-3 opacity-10"><i data-lucide="bell-ring" class="w-16 h-16 text-brand-accent"></i></div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-brand-sage/10 space-y-4 transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden loop-card">
+                    <div class="w-10 h-10 bg-brand-dark text-brand-light rounded-full flex items-center justify-center font-bold text-sm">03</div>
+                    <h3 class="font-semibold text-lg text-brand-dark uppercase tracking-wider">RESPONSE (REAKSİYON)</h3>
+                    <p class="text-xs text-brand-dark/60 font-light leading-relaxed">
+                        Otonom korunma ve kaçınma refleksi: <em>Zorlu işten kaçıp telefona yönelme, kompulsif sekme geçişi, abur cubur yeme veya sigara içme.</em>
+                    </p>
+                    <div class="absolute right-3 top-3 opacity-10"><i data-lucide="smartphone" class="w-16 h-16 text-brand-dark"></i></div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-md border border-brand-accent/20 space-y-4 transform hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden bg-gradient-to-br from-white to-brand-accent/5 loop-card">
+                    <div class="w-10 h-10 bg-brand-accent text-brand-light rounded-full flex items-center justify-center font-bold text-sm">04</div>
+                    <h3 class="font-semibold text-lg text-brand-accent uppercase tracking-wider">ENERGY EFFECT</h3>
+                    <p class="text-xs text-brand-dark/60 font-light leading-relaxed">
+                        Sisteme binen nihai hasar: <em>Ağır suçluluk duygusu (guilt), bilişsel parçalanma, derin odak kaybı ve daha fazla kaçış arzusu.</em>
+                    </p>
+                    <div class="absolute right-3 top-3 opacity-20"><i data-lucide="battery-low" class="w-16 h-16 text-brand-accent"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: SOFTWARE-FIRST PIVOT -->
+    <section class="relative min-h-screen flex items-center py-24 px-6 md:px-12 z-10 bg-brand-deep text-brand-light" id="pivot">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left: Graphic of the Software Integration -->
+            <div class="relative space-y-6 gs-fade-right order-2 lg:order-1">
+                <!-- Mockup of Chrome Extension & Widget -->
+                <div class="bg-brand-dark/80 p-6 rounded-3xl border border-brand-sage/20 shadow-2xl space-y-6 relative overflow-hidden">
+                    <div class="flex items-center gap-2 border-b border-brand-sage/15 pb-4">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                        <span class="text-[10px] text-brand-sage font-mono ml-4">chrome-extension://heos-sustain</span>
+                    </div>
+
+                    <!-- Simulator UI representing context switcher tracking -->
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-brand-sage font-mono">APP_SWITCHING_FREQUENCY:</span>
+                            <span class="text-red-400 font-bold">28 geçiş/saat (Yüksek)</span>
+                        </div>
+                        <div class="h-2 w-full bg-brand-deep rounded-full overflow-hidden">
+                            <div class="h-full bg-red-400 rounded-full" style="width: 82%;"></div>
+                        </div>
+
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="text-brand-sage font-mono">COGNITIVE_SHIELDING_STATE:</span>
+                            <span class="text-brand-accent font-bold">ETKİN DEĞİL</span>
+                        </div>
+                    </div>
+
+                    <!-- Somatic prompt pop-up simulator -->
+                    <div class="bg-brand-deep p-4 rounded-xl border border-brand-accent/20 space-y-3 relative z-10 animate-pulse">
+                        <div class="flex items-center justify-between text-[11px] text-brand-accent uppercase font-bold tracking-widest">
+                            <span>Susternal Somatic Prompt</span>
+                            <span>Aksiyona Geçildi</span>
+                        </div>
+                        <p class="text-xs text-brand-light/90 leading-relaxed font-light">
+                            "Az önce son 3 dakika içinde Slack, Jira ve Twitter arasında 14 kez geçiş yaptın. Bilişsel parçalanman tavan yaptı. Şimdi o telefona uzanmadan önce kendine sadece <strong>20 saniye</strong> ver. Durulalım mı?"
+                        </p>
+                        <div class="flex gap-2 text-[10px]">
+                            <button class="bg-brand-accent text-brand-light px-3 py-1.5 rounded uppercase font-bold">Durul (Nefes Al)</button>
+                            <button class="border border-brand-sage/20 text-brand-sage px-3 py-1.5 rounded uppercase font-bold">Biliyorum, Devam Et</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Minimalist Widget mockup -->
+                <div class="absolute -bottom-8 -right-4 w-64 bg-brand-light text-brand-dark p-4 rounded-2xl shadow-2xl border border-brand-sage/20 space-y-2 hidden sm:block">
+                    <div class="flex justify-between items-center text-[10px] text-brand-dark/40 uppercase font-mono tracking-wider">
+                        <span>HEOS Widget v0.1</span>
+                        <span class="text-brand-accent font-bold">Live</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-3 h-3 rounded-full bg-brand-accent animate-ping"></div>
+                        <div class="space-y-0.5">
+                            <div class="text-[10px] font-bold text-brand-dark/60 uppercase">ATTENTION WAVE</div>
+                            <div class="text-sm font-semibold text-serif text-brand-dark leading-tight">Yüksek Türbülans</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Text with key-value highlights -->
+            <div class="space-y-8 gs-fade-up order-1 lg:order-2">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">ZERO-FRICTION INGESTION</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold leading-tight">
+                    Donanım Bağımlılığına Son.<br>Pazarınızı Daraltmayın.
+                </h2>
+                <div class="space-y-6 text-brand-light/80 font-light leading-relaxed">
+                    <p>
+                        Herkesin kolunda \$300 değerinde bir akıllı saat yoktur ama herkesin elinde bir akıllı telefon, masasında ise bir bilgisayar vardır. Bizi sömüren o bildirimlerin ve dikkat kırıntılarının tamamı bu ekranlarda gerçekleşir.
+                    </p>
+                    <p>
+                        Susternal, donanım zorunluluğunu tamamen kaldırarak <strong>"Software-First"</strong> yapısıyla çalışır. İlk gün tek tıkla kuracağınız bir tarayıcı eklentisi ve mobil widget, bilişsel bütünlüğünüzü korumak için yeterlidir.
+                    </p>
+                </div>
+
+                <!-- Key benefits layout -->
+                <div class="grid grid-cols-2 gap-4 pt-4 border-t border-brand-sage/10">
+                    <div class="space-y-1">
+                        <div class="text-brand-accent font-serif text-2xl font-bold">90 Sn.</div>
+                        <div class="text-xs text-brand-sage font-light uppercase tracking-wider">İlk Değer Üretme Süresi</div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="text-brand-accent font-serif text-2xl font-bold">Sıfır</div>
+                        <div class="text-xs text-brand-sage font-light uppercase tracking-wider">Kullanıcı Veri Girişi Yükü</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: LIVE FSI METRIC CALCULATOR -->
+    <section class="relative min-h-screen flex items-center py-24 px-6 md:px-12 z-10 bg-brand-light" id="fsi">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left content -->
+            <div class="space-y-8 gs-fade-up">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">FSI — FRAGMENTATION STABILITY INDEX</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold text-brand-dark leading-tight">
+                    Gerçek Durumunuzu Hesaplayın.
+                </h2>
+                <div class="space-y-6 text-brand-dark/70 font-light leading-relaxed">
+                    <p>
+                        Geleneksel sistemler "streak" mantığıyla çalışarak sizi cezalandırır ve suçluluk yükler. HEOS ise, dikkatinizin bütünlüğünü ve yenilenme kapasitenizi matematiksel bir formüle döker: <strong>FSI (Parçalanma Denge Endeksi)</strong>.
+                    </p>
+                    <p class="font-mono text-xs bg-brand-sage/10 p-4 rounded-lg border border-brand-sage/20 text-brand-dark/90 leading-relaxed">
+                        FSI = 100 - (Bilişsel &times; 0.30 + Davranışsal &times; 0.25 + Dijital &times; 0.25 + Recovery &times; 0.20)
+                    </p>
+                    <p>
+                        Yandaki interaktif simülatörde gün içindeki tahmini maruziyet durumunuzu kaydırın ve HEOS AI motorunun size tarafsız ve yargılamayan bir teşhis sunmasını izleyin.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Interactive FSI Slider Widget -->
+            <div class="bg-white p-8 rounded-3xl shadow-xl border border-brand-sage/20 space-y-8 relative gs-fade-left">
+                <h3 class="text-serif text-xl font-semibold text-brand-dark">FSI Simülatörü</h3>
+                
+                <div class="space-y-6">
+                    <!-- Slider 1 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-brand-dark/80">Bilişsel Parçalanma (Sekme geçişleri, yarım kalan işler)</span>
+                            <span class="text-brand-accent font-mono" id="val-cognitive">50%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="50" class="w-full h-1.5 bg-brand-sage/20 rounded-lg appearance-none cursor-pointer accent-brand-accent" id="slider-cognitive">
+                    </div>
+
+                    <!-- Slider 2 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-brand-dark/80">Davranışsal Parçalanma (Erteleme, kompulsif döngüler)</span>
+                            <span class="text-brand-accent font-mono" id="val-behavioral">40%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="40" class="w-full h-1.5 bg-brand-sage/20 rounded-lg appearance-none cursor-pointer accent-brand-accent" id="slider-behavioral">
+                    </div>
+
+                    <!-- Slider 3 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-brand-dark/80">Dijital Parçalanma (Bildirimler, kısa video maruziyeti)</span>
+                            <span class="text-brand-accent font-mono" id="val-digital">60%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="60" class="w-full h-1.5 bg-brand-sage/20 rounded-lg appearance-none cursor-pointer accent-brand-accent" id="slider-digital">
+                    </div>
+
+                    <!-- Slider 4 -->
+                    <div class="space-y-2">
+                        <div class="flex justify-between text-xs font-medium">
+                            <span class="text-brand-dark/80">Yenilenme Kaybı (Gece ekranı, sıfır dinlenme)</span>
+                            <span class="text-brand-accent font-mono" id="val-recovery">30%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="30" class="w-full h-1.5 bg-brand-sage/20 rounded-lg appearance-none cursor-pointer accent-brand-accent" id="slider-recovery">
+                    </div>
+                </div>
+
+                <!-- Final Score Result Area -->
+                <div class="bg-brand-dark text-brand-light p-6 rounded-2xl border border-brand-accent/20 flex flex-col sm:flex-row items-center justify-between gap-6 transition-colors duration-300" id="fsi-result-box">
+                    <div class="text-center sm:text-left space-y-1">
+                        <div class="text-xs uppercase font-bold tracking-widest text-brand-sage">Günlük FSI Skorunuz</div>
+                        <p class="text-[10px] text-brand-light/60 max-w-[200px]" id="fsi-evaluation">Zihniniz dengede ancak dikkat sızıntılarınız artıyor.</p>
+                    </div>
+                    <div class="text-5xl font-serif text-brand-accent font-bold" id="fsi-score">55</div>
+                </div>
+
+                <!-- REAL GEMINI API BIO-NUDGE GENERATOR INTEGRATION -->
+                <div class="border-t border-brand-sage/10 pt-6 mt-6 space-y-4">
+                    <h4 class="text-serif font-semibold text-brand-dark flex items-center gap-2 text-sm">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-brand-accent animate-spin-slow"></i>
+                        Kişiselleştirilmiş Somatik Sığınak (Bio-Nudge)
+                    </h4>
+                    <p class="text-xs text-brand-dark/70 font-light leading-relaxed">
+                        Şu anki zihinsel ve fiziksel aşırı yüklenme durumunuzu yazın. Yapay zekâmız, otonom sinir sisteminizi 30 saniyede dengeleyecek somatik bir egzersiz üretsin.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <input type="text" id="nudge-user-state" placeholder="Örn: 2 saattir aralıksız kod yazıyorum, gözlerim ağrıyor..." class="w-full bg-brand-light border border-brand-sage/30 px-3 py-2.5 rounded-lg text-xs text-brand-dark focus:border-brand-accent outline-none">
+                        <button id="btn-generate-nudge" class="bg-brand-dark hover:bg-brand-accent text-brand-light px-5 py-2.5 rounded-lg text-xs font-bold whitespace-nowrap transition-colors flex items-center justify-center gap-1">
+                            <span id="nudge-btn-text">✨ Nudge Üret</span>
+                            <span id="nudge-btn-spinner" class="hidden animate-spin h-3.5 w-3.5 border-2 border-brand-light border-t-transparent rounded-full"></span>
+                        </button>
+                    </div>
+                    <div id="nudge-result-box" class="hidden bg-brand-sage/15 border border-brand-sage/25 p-5 rounded-2xl text-xs space-y-3 transition-all duration-500 transform translate-y-2 opacity-0">
+                        <div class="font-bold text-brand-dark flex items-center justify-between">
+                            <span id="nudge-name">Fizyolojik Çekme Egzersizi</span>
+                            <span class="px-2 py-0.5 bg-brand-accent/20 text-brand-accent rounded text-[9px] uppercase font-bold tracking-wider">30 Sn</span>
+                        </div>
+                        <p id="nudge-instructions" class="text-brand-dark/80 font-light leading-relaxed"></p>
+                        <div class="pt-2 border-t border-brand-sage/10 text-[10px] text-brand-dark/60 italic leading-snug">
+                            <strong>Bilimsel Temel:</strong> <span id="nudge-science"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: SIGNALS & FRAGMENTATION ARCHITECTURE -->
+    <section class="relative min-h-screen py-24 px-6 md:px-12 z-10 bg-[#0c1815] text-brand-light" id="signals">
+        <div class="max-w-7xl mx-auto space-y-16">
+            <!-- Header -->
+            <div class="max-w-3xl space-y-4 gs-fade-up mx-auto text-center">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">SİNYAL MİMARİSİ</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold">
+                    Dörtlü Bilişsel Sızıntı Yapısı
+                </h2>
+                <p class="text-brand-light/70 font-light max-w-2xl mx-auto">
+                    HEOS ham datayı izlemez. İnsan davranışındaki görünmez yıpranmayı otonom sinir sistemi ve zihinsel sızıntı boyutlarında saptar.
+                </p>
+            </div>
+
+            <!-- Quad Columns representing Signal Architecture from Slide 6 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Cognitive -->
+                <div class="bg-brand-dark/60 p-8 rounded-3xl border border-brand-sage/10 space-y-4 hover:border-brand-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-2xl bg-purple-950/40 text-purple-400 flex items-center justify-center">
+                        <i data-lucide="brain" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-serif text-lg font-semibold">Bilişsel Sızıntı</h3>
+                    <ul class="text-xs text-brand-light/60 space-y-2.5 list-disc pl-4 font-light">
+                        <li>Sık uygulama geçişleri (Context Switching)</li>
+                        <li>Kısa dikkat döngüleri ve odak düşüşleri</li>
+                        <li>Çoklu eş zamanlı input bombardımanı</li>
+                    </ul>
+                </div>
+
+                <!-- Behavioral -->
+                <div class="bg-brand-dark/60 p-8 rounded-3xl border border-brand-sage/10 space-y-4 hover:border-brand-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-2xl bg-blue-950/40 text-blue-400 flex items-center justify-center">
+                        <i data-lucide="activity" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-serif text-lg font-semibold">Davranışsal Sızıntı</h3>
+                    <ul class="text-xs text-brand-light/60 space-y-2.5 list-disc pl-4 font-light">
+                        <li>Yarım bırakılan görevler ve erteleme</li>
+                        <li>Yüksek niyet / Düşük tamamlama oranı</li>
+                        <li>Kompulsif uygulama açıp kapatma örüntüsü</li>
+                    </ul>
+                </div>
+
+                <!-- Digital -->
+                <div class="bg-brand-dark/60 p-8 rounded-3xl border border-brand-sage/10 space-y-4 hover:border-brand-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-950/40 text-brand-accent flex items-center justify-center">
+                        <i data-lucide="smartphone" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-serif text-lg font-semibold">Dijital Sızıntı</h3>
+                    <ul class="text-xs text-brand-light/60 space-y-2.5 list-disc pl-4 font-light">
+                        <li>Saçılan anlık bildirim kesintileri</li>
+                        <li>Kısa form içerik yoğunluğu</li>
+                        <li>Pasif tüketim dansitesi (Binge)</li>
+                    </ul>
+                </div>
+
+                <!-- Recovery -->
+                <div class="bg-brand-dark/60 p-8 rounded-3xl border border-brand-sage/10 space-y-4 hover:border-brand-accent/30 transition-all duration-300">
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-950/40 text-emerald-400 flex items-center justify-center">
+                        <i data-lucide="refresh-cw" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-serif text-lg font-semibold">Dinlenme Sızıntısı</h3>
+                    <ul class="text-xs text-brand-light/60 space-y-2.5 list-disc pl-4 font-light">
+                        <li>Yenilenme evresinde dahi uyarım (Overstimulation)</li>
+                        <li>Melatonin engelleyen gece ekranı maruziyeti</li>
+                        <li>Sıfırlayıcı zihinsel sessizlik eksikliği</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Note on GTM & Vision -->
+            <div class="bg-brand-dark p-8 rounded-3xl border border-brand-sage/15 flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto">
+                <div class="space-y-2 text-center md:text-left">
+                    <h4 class="text-serif text-white font-semibold">"Sadece 90 saniyelik bir analiz, bir yıllık motivasyondan daha kalıcı farkındalık sağlar."</h4>
+                    <p class="text-xs text-brand-light/50 font-light">Susternal, her anınızı izleyen bir casus yazılım değil, dikkatiniz parçalandığında size rehberlik eden sessiz bir aynadır.</p>
+                </div>
+                <a href="#waitlist" class="bg-brand-accent text-brand-light font-bold text-xs py-3.5 px-6 rounded-full uppercase tracking-wider hover:bg-white hover:text-brand-dark transition-all duration-300 whitespace-nowrap">Harekete Geç</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: SELF-JUDGMENT TRANSLATOR -->
+    <section class="relative min-h-screen flex items-center py-24 px-6 md:px-12 z-10 bg-brand-dark text-brand-light" id="translator">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <!-- Left Console UI -->
+            <div class="bg-brand-deep p-8 rounded-3xl border border-brand-sage/20 shadow-2xl space-y-6 relative order-2 lg:order-1 gs-fade-right">
+                <div class="flex justify-between items-center border-b border-brand-sage/10 pb-4">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="languages" class="w-4 h-4 text-brand-accent"></i>
+                        <h3 class="text-sm font-semibold uppercase tracking-wider text-brand-sage font-mono">Self-Judgment Translator v1.1</h3>
+                    </div>
+                    <span class="text-[10px] text-brand-accent uppercase font-bold font-mono tracking-widest">Çeviri Aktif</span>
+                </div>
+
+                <!-- Selector & Custom Input -->
+                <div class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-xs text-brand-sage uppercase font-mono tracking-wider">Bir Şablon Seçin veya Kendi Cümlenizi Yazın:</label>
+                        <select id="judgment-selector" class="w-full bg-brand-dark border border-brand-sage/20 p-3 rounded text-sm text-brand-light font-medium focus:border-brand-accent outline-none">
+                            <option value="tembel">"Ben çok tembelim, bugün hiçbir şey yapamadım."</option>
+                            <option value="iradesiz">"Sosyal medyada gezinmeden duramıyorum, hiç iradem yok."</option>
+                            <option value="disiplinsiz">"Derin çalışmaya odaklanamıyorum, disiplinsiz biriyim."</option>
+                            <option value="tukenmis">"Sürekli erteleyip duruyorum, sanırım bu mesleğe uygun değilim."</option>
+                            <option value="custom">-- Kendi Cümlenizi Yazın --</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <textarea id="judgment-input" rows="3" class="w-full bg-brand-dark border border-brand-sage/20 p-3 rounded text-sm text-brand-light focus:border-brand-accent outline-none placeholder:text-brand-light/30 leading-relaxed font-light" placeholder="Örn: Sabahtan beri telefona bakıyorum, hiçbir işi yetiştiremeyeceğim..."></textarea>
+                    </div>
+                    <button id="btn-translate-judgment" class="w-full bg-brand-accent hover:bg-brand-sage text-brand-light px-6 py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-300 flex items-center justify-center gap-2">
+                        <span id="btn-translate-text">✨ Yargıyı Sistemik Çevir</span>
+                        <span id="btn-translate-spinner" class="hidden animate-spin h-4 w-4 border-2 border-brand-light border-t-transparent rounded-full"></span>
+                    </button>
+                </div>
+
+                <!-- Outputs of translation -->
+                <div class="space-y-4 pt-4 border-t border-brand-sage/10">
+                    <div class="space-y-1">
+                        <span class="text-[10px] text-brand-accent font-mono uppercase tracking-widest block">Geleneksel Kültür Suçlaması (Toplum):</span>
+                        <p class="text-sm text-red-300 font-light italic" id="trans-social">"Disiplinsizsin, yeterince çabalamıyorsundur."</p>
+                    </div>
+                    <div class="space-y-1 bg-brand-dark/40 p-4 rounded-xl border border-brand-sage/10 transition-all duration-300">
+                        <span class="text-[10px] text-brand-sage font-mono uppercase tracking-widest block">HEOS Sistemik Analiz Teşhisi:</span>
+                        <p class="text-sm text-brand-light leading-relaxed font-light mt-1" id="trans-heos">
+                            Sisteminizde ağır kortikal desenzorizasyon ve dopamin reseptör doygunluğu tespit edildi. Sürekli maruz kaldığınız mikro-uyarıcılar sinir sisteminizin 'kaçınma' refleksini tetiklimiş durumda. Bu bir karakter kusuru değil, biyolojik bir adaptasyon tepkisidir.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Text -->
+            <div class="space-y-8 gs-fade-up order-1 lg:order-2">
+                <span class="text-brand-accent text-xs font-bold uppercase tracking-widest block">VI. EN BÜYÜK TASARIM ZORLUĞU</span>
+                <h2 class="text-serif text-3xl sm:text-5xl font-semibold leading-tight text-brand-light">
+                    Kendinizi Yargılamayı Bırakın. Sistemi Görün.
+                </h2>
+                <div class="space-y-6 text-brand-light/80 font-light leading-relaxed">
+                    <p>
+                        İnsanlar davranışlarını neredeyse her zaman yanlış yorumlarlar. Kendilerine tembel, disiplinsiz veya iradesiz derler. Oysa gerçek örüntü çok başkadır: <strong>aşırı uyarılmış bir sinir sistemi ve yıpranmış bir bilişsel kapasite</strong>.
+                    </p>
+                    <p>
+                        HEOS bünyesindeki <strong>"Self-Judgment Translator" (Öz-Yargı Tercümanı)</strong>, kendinizi cezalandırmak ve suçluluk döngüsüne girmek yerine, davranışlarınızın altında yatan rasyonel nedenleri bilimsel dille önünüze serer. Size suçluluk duygusu değil, eylem gücü kazandırır.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: WAITLIST & CTA -->
+    <section class="relative py-24 px-6 md:px-12 z-10 bg-brand-deep text-brand-light" id="waitlist">
+        <div class="max-w-4xl mx-auto text-center space-y-8 relative">
+            
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-brand-accent/20 bg-brand-accent/10 text-brand-accent text-xs font-semibold uppercase tracking-wider">
+                BİLİŞSEL BAĞIMSIZLIĞINIZI GERİ KAZANIN
+            </div>
+
+            <h2 class="text-serif text-4xl sm:text-6xl font-semibold leading-tight">
+                Sessiz Devrim Başlıyor.<br>Yerinizi Ayırtın.
+            </h2>
+
+            <p class="max-w-2xl mx-auto text-sm sm:text-base text-brand-light/70 font-light leading-relaxed">
+                Kendinizi suçlamayı bırakmaya, dikkatinizi rasyonel bir enerji bütçesiyle korumaya ve biyolojik kapasitenizi geri kazanmaya hazırsanız, ilk 1000 kapalı beta kullanıcımızın arasına katılın.
+            </p>
+
+            <!-- Inline email waitlist form -->
+            <div class="max-w-md mx-auto bg-brand-dark p-2 rounded-full border border-brand-sage/20 flex flex-col sm:flex-row items-center gap-2" id="waitlist-form-container">
+                <input type="email" placeholder="E-posta adresinizi girin..." class="w-full bg-transparent px-4 py-3 text-sm focus:outline-none text-brand-light placeholder:text-brand-light/40" id="waitlist-email">
+                <button onclick="submitWaitlist()" class="w-full sm:w-auto bg-brand-accent hover:bg-brand-light text-brand-light hover:text-brand-dark px-6 py-3 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 whitespace-nowrap">
+                    Kayıt Ol
+                </button>
+            </div>
+            
+            <!-- Custom modal replacement for alert() -->
+            <div id="custom-modal" class="hidden max-w-sm mx-auto p-4 bg-brand-dark border border-brand-accent/40 rounded-xl mt-4 text-xs space-y-2 text-left">
+                <p class="text-brand-accent font-semibold flex items-center gap-2"><i data-lucide="check-circle" class="w-4 h-4"></i> Kayıt Başarılı!</p>
+                <p class="text-brand-light/80 font-light" id="modal-text">Harika! Susternal bekleme listesindeki 142. sıranız rezerve edildi. Biyolojik bağımsızlığınız için ilk adımı attınız.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="relative py-12 px-6 md:px-12 z-10 bg-brand-deep border-t border-brand-sage/15 text-brand-sage">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-light">
+            <div class="flex items-center gap-2">
+                <span class="text-serif font-semibold text-lg text-brand-light tracking-wide">SUSTERNAL</span>
+                <span class="text-[10px] border border-brand-sage/20 px-2 py-0.5 rounded">HEOS v0.1</span>
+            </div>
+            <div class="flex items-center gap-8">
+                <a href="#" class="hover:text-brand-accent transition-colors">Kullanım Koşulları</a>
+                <a href="#" class="hover:text-brand-accent transition-colors">Gizlilik Sözleşmesi</a>
+                <a href="mailto:info@susternal.io" class="hover:text-brand-accent transition-colors">İletişim</a>
+            </div>
+            <div>
+                © 2026 Susternal Inc. Tüm hakları saklıdır.
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPTS -->
+    <script>
+        // Init Lucide Icons
+        lucide.createIcons();
+
+        // SCROLL-BASED ATTENTION WAVE SIMULATOR ON CANVAS
+        const canvas = document.getElementById('attention-wave-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        let turbulence = 0.5;
+        let speed = 0.005;
+        let amplitude = 40;
+        let frequency = 0.003;
+        let opacity = 0.15;
+
+        // Dynamic parameters based on scroll positions
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            // Customize wave behaviors depending on which section is active
+            const currentSection = getCurrentSection();
+            if (currentSection === 'hero') {
+                animateToWaveParams(0.3, 0.004, 30, 0.002, 0.12);
+            } else if (currentSection === 'thesis' || currentSection === 'pivot') {
+                animateToWaveParams(0.6, 0.006, 50, 0.004, 0.18);
+            } else if (currentSection === 'problem' || currentSection === 'signals') {
+                animateToWaveParams(1.4, 0.015, 80, 0.008, 0.25);
+            } else if (currentSection === 'fsi' || currentSection === 'translator') {
+                animateToWaveParams(0.8, 0.008, 45, 0.005, 0.15);
+            } else if (currentSection === 'waitlist') {
+                animateToWaveParams(0.15, 0.002, 15, 0.001, 0.08);
+            }
+            
+            // Minimal header background on scroll
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-brand-light/80', 'backdrop-blur-md', 'shadow-sm');
+                header.classList.remove('py-6');
+                header.classList.add('py-4');
+            } else {
+                header.classList.remove('bg-brand-light/80', 'backdrop-blur-md', 'shadow-sm');
+                header.classList.remove('py-4');
+                header.classList.add('py-6');
+            }
+        });
+
+        // Simple smooth parameter interpolator
+        let targetParams = { turb: 0.3, spd: 0.004, amp: 30, freq: 0.002, op: 0.12 };
+        function animateToWaveParams(turb, spd, amp, freq, op) {
+            targetParams = { turb, spd, amp, freq, op };
+        }
+
+        function updateWaveValues() {
+            turbulence += (targetParams.turb - turbulence) * 0.05;
+            speed += (targetParams.spd - speed) * 0.05;
+            amplitude += (targetParams.amp - amplitude) * 0.05;
+            frequency += (targetParams.freq - frequency) * 0.05;
+            opacity += (targetParams.op - opacity) * 0.05;
+        }
+
+        function getCurrentSection() {
+            const scrollY = window.scrollY;
+            const sections = ['hero', 'thesis', 'problem', 'pivot', 'fsi', 'signals', 'translator', 'waitlist'];
+            for (let sec of sections) {
+                const el = document.getElementById(sec);
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        return sec;
+                    }
+                }
+            }
+            return 'hero';
+        }
+
+        // Draw multiple overlapping sine waves on canvas
+        let time = 0;
+        function drawWave() {
+            ctx.clearRect(0, 0, width, height);
+            updateWaveValues();
+            time += speed;
+
+            const wavesCount = 3;
+            for (let w = 0; w < wavesCount; w++) {
+                ctx.beginPath();
+                ctx.strokeStyle = w === 0 ? '#112620' : (w === 1 ? '#D68C45' : '#8FA89B');
+                ctx.lineWidth = w === 0 ? 2 : 1;
+                ctx.globalAlpha = opacity * (1 - w * 0.2);
+
+                const offset = w * 100;
+                for (let x = 0; x < width; x += 10) {
+                    const angle = x * frequency + time + offset;
+                    const noise = Math.sin(x * 0.02 - time * 2) * turbulence * 15;
+                    const y = height / 2 + Math.sin(angle) * amplitude + noise;
+                    
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(drawWave);
+        }
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        });
+
+        drawWave();
+
+
+        // INTERACTIVE FSI CALCULATOR LOGIC
+        const sliders = {
+            cog: document.getElementById('slider-cognitive'),
+            beh: document.getElementById('slider-behavioral'),
+            dig: document.getElementById('slider-digital'),
+            rec: document.getElementById('slider-recovery')
+        };
+
+        const values = {
+            cog: document.getElementById('val-cognitive'),
+            beh: document.getElementById('val-behavioral'),
+            dig: document.getElementById('val-digital'),
+            rec: document.getElementById('val-recovery')
+        };
+
+        const scoreDisplay = document.getElementById('fsi-score');
+        const evalDisplay = document.getElementById('fsi-evaluation');
+        const fsiResultBox = document.getElementById('fsi-result-box');
+
+        function updateFSI() {
+            const cogVal = parseInt(sliders.cog.value);
+            const behVal = parseInt(sliders.beh.value);
+            const digVal = parseInt(sliders.dig.value);
+            const recVal = parseInt(sliders.rec.value);
+
+            values.cog.innerText = cogVal + "%";
+            values.beh.innerText = behVal + "%";
+            values.dig.innerText = digVal + "%";
+            values.rec.innerText = recVal + "%";
+
+            const fsiScore = Math.round(100 - (cogVal * 0.30 + behVal * 0.25 + digVal * 0.25 + recVal * 0.20));
+            scoreDisplay.innerText = fsiScore;
+
+            if (fsiScore >= 75) {
+                evalDisplay.innerText = "Mükemmel! Bilişsel likiditeniz koruma altında. Yenilenme kapasiteniz yüksek.";
+                fsiResultBox.className = "bg-brand-dark text-brand-light p-6 rounded-2xl border border-brand-sage/40 flex flex-col sm:flex-row items-center justify-between gap-6 transition-colors duration-300";
+                scoreDisplay.className = "text-5xl font-serif text-brand-sage font-bold";
+            } else if (fsiScore >= 45) {
+                evalDisplay.innerText = "Denge Sınırı. Dikkat sızıntılarınız artıyor, gün sonunda çökmeler yaşayabilirsiniz.";
+                fsiResultBox.className = "bg-brand-dark text-brand-light p-6 rounded-2xl border border-brand-accent/20 flex flex-col sm:flex-row items-center justify-between gap-6 transition-colors duration-300";
+                scoreDisplay.className = "text-5xl font-serif text-brand-accent font-bold";
+            } else {
+                evalDisplay.innerText = "Sistemik İflas. Ağır parçalanma döngüsü. Prefrontal korteksiniz aşırı yük altında.";
+                fsiResultBox.className = "bg-brand-dark text-brand-light p-6 rounded-2xl border border-red-500/30 flex flex-col sm:flex-row items-center justify-between gap-6 transition-colors duration-300";
+                scoreDisplay.className = "text-5xl font-serif text-red-400 font-bold";
+            }
+        }
+
+        Object.values(sliders).forEach(slider => {
+            slider.addEventListener('input', updateFSI);
+        });
+
+        updateFSI();
+
+
+        // INTERACTIVE SELF-JUDGMENT TRANSLATOR LOGIC
+        const judgmentSelector = document.getElementById('judgment-selector');
+        const judgmentInput = document.getElementById('judgment-input');
+        const btnTranslate = document.getElementById('btn-translate-judgment');
+        const transSocial = document.getElementById('trans-social');
+        const transHeos = document.getElementById('trans-heos');
+
+        const staticTranslations = {
+            tembel: "Ben çok tembelim, bugün hiçbir şey yapamadım.",
+            iradesiz: "Sosyal medyada gezinmeden duramıyorum, hiç iradem yok.",
+            disiplinsiz: "Derin çalışmaya odaklanamıyorum, disiplinsiz biriyim.",
+            tukenmis: "Sürekli erteleyip duruyorum, sanırım bu mesleğe uygun değilim."
+        };
+
+        judgmentInput.value = staticTranslations.tembel;
+
+        judgmentSelector.addEventListener('change', () => {
+            const selected = judgmentSelector.value;
+            if (selected === 'custom') {
+                judgmentInput.value = "";
+                judgmentInput.focus();
+                judgmentInput.placeholder = "Kendinize dair yargılayıcı cümlenizi buraya özgürce yazın...";
+            } else {
+                judgmentInput.value = staticTranslations[selected];
+            }
+        });
+
+        // Custom Premium Toast Notification System (NO ALERTS)
+        function showCustomToast(title, message, isError = false) {
+            const existing = document.getElementById('floating-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.id = 'floating-toast';
+            toast.className = `fixed bottom-6 right-6 z-50 max-w-sm p-4 rounded-xl shadow-2xl border transition-all duration-300 transform translate-y-2 opacity-0 flex flex-col gap-1 ${
+                isError ? 'bg-red-950 border-red-500 text-red-100' : 'bg-brand-dark border-brand-accent text-brand-light'
+            }`;
+            
+            toast.innerHTML = `
+                <div class="flex items-center gap-2 font-semibold text-xs ${isError ? 'text-red-300' : 'text-brand-accent'}">
+                    <i data-lucide="${isError ? 'alert-circle' : 'sparkles'}" class="w-4 h-4"></i>
+                    <span>${title}</span>
+                </div>
+                <p class="text-xs text-opacity-80 font-light leading-relaxed">${message}</p>
+            `;
+            
+            document.body.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 6000);
+        }
+
+        // EXPONENTIAL BACKOFF FOR ALL GEMINI API CALLS
+        async function fetchGeminiWithBackoff(prompt, systemInstruction, jsonSchema = null) {
+            const apiKey = ""; 
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] }
+            };
+            
+            if (jsonSchema) {
+                payload.generationConfig = {
+                    responseMimeType: "application/json",
+                    responseSchema: jsonSchema
+                };
+            }
+            
+            let delay = 1000;
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                } catch (e) {
+                    // Fail silently during retries
+                }
+                await new Promise(resolve => setTimeout(resolve, delay));
+                delay *= 2;
+            }
+            throw new Error("Sunucuya bağlanılamadı. Lütfen ağ ayarlarınızı kontrol edip tekrar deneyin.");
+        }
+
+        // TRIGGER INTEGRATED GEMINI CHAT TRANSLATOR
+        btnTranslate.addEventListener('click', async () => {
+            const userText = judgmentInput.value.trim();
+            if (!userText) {
+                showCustomToast("Eksik Girdi", "Lütfen analiz edilmesini istediğiniz bir cümle yazın.", true);
+                return;
+            }
+
+            const textSpan = document.getElementById('btn-translate-text');
+            const spinner = document.getElementById('btn-translate-spinner');
+            btnTranslate.disabled = true;
+            textSpan.innerText = "Yapay Zeka Analiz Ediyor...";
+            spinner.classList.remove('hidden');
+
+            const systemPrompt = `Sen Susternal girişiminin kalbi olan HEOS (Human Energy Operating System) yapay zeka motorusun. Kullanıcının kendine söylediği suçlayıcı, yargılayıcı, toksik verimlilik kültüründen beslenen cümleleri alıp bunları yargılamayan, şefkatli, otonom sinir sistemi ve bilişsel ekoloji odaklı bilimsel bir dille tercüme etmelisin. 
+
+            Cevabın iki bölümden oluşmalı ve JSON formatında dönmelidir:
+            1. socialCharge: Kullanıcının kendini suçladığı ya da toplumun ona söyleyeceği hırpalayıcı cümle. Kısa, italik ve vurucu olmalı.
+            2. heosDiagnosis: Tıbbi, nörobilimsel ve psikolojik terimlerle bezeli, suçluluğu ortadan kaldıran ve bunun biyolojik bir adaptasyon veya sinir sistemi aşırı uyarılması/yorgunluğu olduğunu açıklayan şefkatli analiz. Kullanıcıya 'iradesiz' veya 'tembel' olmadığını, bilişsel enerjisinin tükendiğini rasyonel olarak kanıtla.
+            
+            Cevabını her zaman Türkçe ve sakin, tarafsız, profesyonel bir tonda yaz.`;
+
+            const jsonSchema = {
+                type: "OBJECT",
+                properties: {
+                    socialCharge: { type: "STRING", description: "Suçlayıcı veya yargılayıcı toplumsal kalıp söz." },
+                    heosDiagnosis: { type: "STRING", description: "Biyolojik ve nörobilimsel HEOS analiz teşhisi." }
+                },
+                required: ["socialCharge", "heosDiagnosis"]
+            };
+
+            try {
+                const data = await fetchGeminiWithBackoff(userText, systemPrompt, jsonSchema);
+                const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (resultText) {
+                    const parsed = JSON.parse(resultText);
+                    transSocial.innerText = parsed.socialCharge;
+                    transHeos.innerText = parsed.heosDiagnosis;
+                    showCustomToast("Çeviri Tamamlandı", "Bilişsel analiziniz başarıyla güncellendi.");
+                } else {
+                    throw new Error("Null response");
+                }
+            } catch (err) {
+                showCustomToast("Ağ Hatası", "Yapay zekâ sunucusu meşgul. Güvenli yerel veri tabanındaki analiz yükleniyor.", false);
+                if (userText.toLowerCase().includes("tembel")) {
+                    transSocial.innerText = '"Çok tembelsin, daha çok çabalamalısın."';
+                    transHeos.innerText = "Kortikal desorizasyon saptandı. Gün boyu biriken mikro-kararlar prefrontal korteksi bloke ettiği için otonom sistem kendini koruma moduna aldı. Bu bir iradesizlik değil, biyolojik adaptasyondur.";
+                } else {
+                    transSocial.innerText = `"${userText}"`;
+                    transHeos.innerText = "Sistem üzerinde yüksek bilişsel sızıntı ($CFI$) saptandı. Sinir sisteminin bu kompulsif kaçış davranışı, zihinsel kapasitenin iflas eşiğinde olduğunu bildiren somatik bir alarmdır.";
+                }
+            } finally {
+                btnTranslate.disabled = false;
+                textSpan.innerText = "✨ Yargıyı Sistemik Çevir";
+                spinner.classList.add('hidden');
+            }
+        });
+
+
+        // TRIGGER INTEGRATED GEMINI SOMATIC NUDGE GENERATOR
+        const btnNudge = document.getElementById('btn-generate-nudge');
+        const nudgeInput = document.getElementById('nudge-user-state');
+        const nudgeResultBox = document.getElementById('nudge-result-box');
+        const nudgeName = document.getElementById('nudge-name');
+        const nudgeInstructions = document.getElementById('nudge-instructions');
+        const nudgeScience = document.getElementById('nudge-science');
+
+        btnNudge.addEventListener('click', async () => {
+            const userState = nudgeInput.value.trim();
+            if (!userState) {
+                showCustomToast("Eksik Sinyal", "Lütfen şu anki zihinsel ve fiziksel durumunuzu kısaca tarif edin.", true);
+                return;
+            }
+
+            const nudgeText = document.getElementById('nudge-btn-text');
+            const nudgeSpinner = document.getElementById('nudge-btn-spinner');
+            
+            btnNudge.disabled = true;
+            nudgeText.innerText = "Nudge Tasarlanıyor...";
+            nudgeSpinner.classList.remove('hidden');
+
+            const systemPrompt = `Sen Susternal girişiminin kalbi olan HEOS Somatik Sağlık ve Fizyoloji direktörüsün. Kullanıcının belirttiği akut yorgunluk, göz ağrısı, odaklanamama, uykusuzluk veya sinirsel gerginlik durumunu almalı ve ona 30 saniyede otonom sinir sisteminin sempatik/parasempatik dengesini değiştirecek bilimsel somatik bir egzersiz (Bio-Nudge) önermelisin.
+
+            Cevabın JSON formatında ve şu alanlardan oluşmalıdır:
+            1. interventionName: Somatik egzersizin kısa ve akılda kalıcı ismi (örn: 'Göz Kasları İzometrik Gevşemesi' veya 'Fizyolojik Nefes Çekme').
+            2. stepByStep: 30 saniye içinde kolayca uygulanacak kısa, sakin ve net 2-3 adımlı uygulama talimatları.
+            3. scientificReason: Bu hareketin sinir sistemini nasıl uyardığına dair kısa ve tatmin edici bir fizyolojik sebep (vagus siniri, karbondioksit dengesi, otonomik frenleme vb.).
+
+            Cevabını her zaman Türkçe ve sakin, tarafsız, profesyonel bir tonda yaz.`;
+
+            const jsonSchema = {
+                type: "OBJECT",
+                properties: {
+                    interventionName: { type: "STRING", description: "Somatik egzersiz adı." },
+                    stepByStep: { type: "STRING", description: "30 saniyelik adım adım talimatlar." },
+                    scientificReason: { type: "STRING", description: "Egzersizin otonom sinir sistemine yaptığı etkinin fizyolojik nedeni." }
+                },
+                required: ["interventionName", "stepByStep", "scientificReason"]
+            };
+
+            try {
+                const data = await fetchGeminiWithBackoff(userState, systemPrompt, jsonSchema);
+                const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+                if (resultText) {
+                    const parsed = JSON.parse(resultText);
+                    
+                    nudgeName.innerText = parsed.interventionName;
+                    nudgeInstructions.innerText = parsed.stepByStep;
+                    nudgeScience.innerText = parsed.scientificReason;
+
+                    nudgeResultBox.classList.remove('hidden');
+                    setTimeout(() => {
+                        nudgeResultBox.classList.remove('opacity-0', 'translate-y-2');
+                        nudgeResultBox.classList.add('opacity-100', 'translate-y-0');
+                    }, 50);
+
+                    showCustomToast("Bio-Nudge Aktif", "Yeni somatik müdahaleniz başarıyla üretildi.");
+                } else {
+                    throw new Error("Null response");
+                }
+            } catch (err) {
+                showCustomToast("Yerel Sığınak", "Ağ gecikmesi nedeniyle yerel kurtarma protokolü (Box Breathing) devreye alındı.", false);
+                
+                nudgeName.innerText = "Box Breathing (Kutu Nefesi)";
+                nudgeInstructions.innerText = "4 saniye boyunca burnunuzdan nefes alın. 4 saniye boyunca tutun. 4 saniye boyunca ağzınızdan yavaşça verin. Ve 4 saniye boyunca ciğerleriniz boş şekilde bekleyin. Bu döngüyü 2 kez tekrarlayın.";
+                nudgeScience.innerText = "Parasempatik sinir sistemini aktive ederek otonom fren mekanizmasını devreye sokar ve kalp ritminizi anında dengeler.";
+
+                nudgeResultBox.classList.remove('hidden');
+                setTimeout(() => {
+                    nudgeResultBox.classList.remove('opacity-0', 'translate-y-2');
+                    nudgeResultBox.classList.add('opacity-100', 'translate-y-0');
+                }, 50);
+            } finally {
+                btnNudge.disabled = false;
+                nudgeText.innerText = "✨ Nudge Üret";
+                nudgeSpinner.classList.add('hidden');
+            }
+        });
+
+
+        // WAITLIST SIGNUP SIMULATOR
+        function submitWaitlist() {
+            const emailInput = document.getElementById('waitlist-email');
+            const modal = document.getElementById('custom-modal');
+            const modalText = document.getElementById('modal-text');
+
+            if (emailInput.value.trim() === "" || !emailInput.value.includes('@')) {
+                emailInput.classList.add('border-red-500');
+                showCustomToast("Hatalı E-posta", "Lütfen geçerli bir e-posta adresi yazın.", true);
+                return;
+            }
+
+            emailInput.classList.remove('border-red-500');
+            
+            modal.classList.remove('hidden');
+            const randomQueueNum = Math.floor(Math.random() * 500) + 120;
+            modalText.innerHTML = `Harika! <strong>${emailInput.value}</strong> başarıyla sıraya alındı. Susternal bekleme listesindeki <strong>${randomQueueNum}. sıranız</strong> rezerve edildi.`;
+            
+            showCustomToast("Listeye Eklendiniz", "Kapalı beta sıranız başarıyla oluşturuldu.");
+            emailInput.value = "";
+        }
+
+
+        // GSAP SCROLL TRIGGERS FOR ANIMATIONS
+        gsap.registerPlugin(ScrollTrigger);
+
+        gsap.utils.toArray('.gs-fade-up').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 40,
+                opacity: 0,
+                duration: 1,
+                ease: "power2.out"
+            });
+        });
+
+        gsap.utils.toArray('.gs-fade-left').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                x: 60,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.gs-fade-right').forEach(element => {
+            gsap.from(element, {
+                scrollTrigger: {
+                    trigger: element,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                x: -60,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.from('.loop-card', {
+            scrollTrigger: {
+                trigger: '#loop-cards-container',
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+            },
+            y: 50,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "back.out(1.5)"
+        });
+    </script>
+</body>
+</html>
